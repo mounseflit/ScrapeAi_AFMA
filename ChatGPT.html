@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Chatbot App</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<style>
+        body {
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+    
+</head>
+<body class="bg-white-800 min-h-screen">
+<div class="container mx-auto px-4 py-10">
+<form class="bg-white p-4 rounded-lg" id="chatbotForm">
+<div class="mb-4">
+<label class="sr-only" for="message">Message</label>
+<input class="w-full p-2 rounded border border-gray-500" id="message" name="message" placeholder="Enter your message" type="text"/>
+</div>
+<button class="bg-black text-white px-4 py-2 rounded-lg" type="submit">Ask the AI!</button>
+<div class="mt-4" id="loading" style="display:none;">
+<div class="loader"></div>
+</div>
+</form>
+<div class="mt-4 bg-white p-4 rounded-lg" id="output" style="display:none;"></div>
+<footer class="mt-10 text-center">
+
+</footer>
+</div>
+<script>
+    
+        $("#chatbotForm").on("submit", function (e) {
+            e.preventDefault();
+            let message = $("#message").val();
+            let prompt = `${message}`;
+
+            console.log(prompt);
+            $("#loading").show();
+
+            $.get(`https://a.picoapps.xyz/ask-ai?prompt=${encodeURIComponent(prompt)}`, function (data) {
+                console.log(data.response);
+                $("#output").html(data.response.replace(/\n/g, '<br>')).show();
+                $("#loading").hide();
+            });
+        });
+
+</script>
+
+</body>
+</html>
